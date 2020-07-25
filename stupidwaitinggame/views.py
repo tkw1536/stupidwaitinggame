@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import uuid
 
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model, login, logout
 
 from rest_framework import viewsets, permissions, views, response
 from stupidwaitinggame.serializers import ProfileSerializer, UserSerializer
@@ -31,14 +31,15 @@ class CurrentProfileView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request: HttpRequest):
-        serializer = ProfileSerializer(self.request.user.profile)
+        profile, _ = models.UserProfile.objects.get_or_create(user=self.request.user)
+        serializer = ProfileSerializer(profile)
         return response.Response(serializer.data)
 
 class ClickView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request: HttpRequest):
-        profile = self.request.user.profile
+        profile, _ = models.UserProfile.objects.get_or_create(user=self.request.user)
 
         points, next_click = profile.click()
         return response.Response({
@@ -48,18 +49,37 @@ class ClickView(views.APIView):
 
 
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect(request.GET.get('next', '/'))
-    
-    else:
+    if not request.user.is_authenticated:
         uname = request.get_signed_cookie(settings.USER_COOKIE_NAME, default=False)
 
         if not uname:
             user = get_user_model().objects.create_user('u-' + str(uuid.uuid4()))
-            models.UserProfile(user=user).save()
         else:
             user = get_user_model().objects.get(username=uname)
-
+            if user is None:
+                return reset_view(request)
         login(request, user)
+        request.user = user
 
-        return redirect(request.GET.get('next', '/'))
+    return redirect(request.GET.get('next', '/'))
+
+def reset_view(request):
+    if request.user.is_authenticated:
+        # logout the user and remote it from the database
+        # this should also delete the UserProfile
+        user = request.user
+        logout(request)
+
+        # find and delete the userprofile
+        up = models.UserProfile.objects.filter(user=user)
+        if up is not None:
+            up.delete()
+
+        # if the user is not staff, delete the user too
+        if not user.is_staff:
+            user.delete()
+
+    # clear the user_cookie
+    response = redirect(request.GET.get('next', '/'))
+    response.delete_cookie(settings.USER_COOKIE_NAME)
+    return response

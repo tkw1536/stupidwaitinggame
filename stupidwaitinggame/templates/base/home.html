@@ -97,6 +97,10 @@
         padding: 8px;
         font-size: 0.75rem;
     }
+
+    footer > a {
+        color: blue;
+    }
 </style>
 
 <script type="text/javascript">
@@ -204,7 +208,10 @@
 
         <button id="thebutton" disabled>Loading</button>
 
-        <footer>A rewarding game made by capable people #StayingInside</footer>
+        <footer>
+            A rewarding game made by capable people #StayingInside. 
+            <a href={% url "reset" %}>Start over (this cannot be undone)</a>. 
+        </footer>
     </div>
 </body>
 </html>
