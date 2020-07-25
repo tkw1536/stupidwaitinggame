@@ -30,6 +30,8 @@ ENV DJANGO_SETTINGS_MODULE "stupidwaitinggame.docker_settings"
 
 ### ALL THE CONFIGURATION
 
+ENV DJANGO_INCLUDE_TRACKING ""
+
 # The secret key used for django
 ENV DJANGO_SECRET_KEY ""
 

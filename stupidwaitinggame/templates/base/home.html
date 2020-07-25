@@ -2,6 +2,11 @@
 <html>
 <head>
 
+{% if include_tracking %}
+    <script async src="https://track.everyone.wtf/tracker.js" data-ackee-server="https://track.everyone.wtf" data-ackee-domain-id="{{ include_tracking }}"></script>
+    <script async="" src="https://inform.everyone.wtf/legal.min.js?small,fixed,noborder,privacy"></script>
+{% endif %}
+
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha384-mlceH9HlqLp7GMKHrj5Ara1+LvdTZVMx4S1U43/NxCvAkzIo8WJ0FE7duLel3wVo" crossorigin="anonymous"></script>
 
 <title>A Rewarding Game</title>

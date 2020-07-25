@@ -13,6 +13,8 @@ ALLOWED_HOSTS = os.environ.setdefault("DJANGO_ALLOWED_HOSTS", "").split(",")
 # all our sessions be safe
 SECRET_KEY = os.environ.setdefault("DJANGO_SECRET_KEY", "")
 
+DJANGO_INCLUDE_TRACKING = os.environ.setdefault("DJANGO_INCLUDE_TRACKING", "")
+
 # Passwords
 DATABASES = {
     'default': {

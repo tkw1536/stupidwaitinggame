@@ -20,6 +20,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 USER_COOKIE_NAME = 'import_antigravity_and_push_the_button'
 LOGIN_URL = 'login'
 
+# Legal stuff
+DJANGO_INCLUDE_TRACKING = ""
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -72,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'stupidwaitinggame.context_processors.tracking_and_legal',
             ],
         },
     },
