@@ -21,7 +21,7 @@ USER_COOKIE_NAME = 'import_antigravity_and_push_the_button'
 LOGIN_URL = 'login'
 
 # Legal stuff
-DJANGO_INCLUDE_TRACKING = ""
+DJANGO_INCLUDE_TRACKING = "dummy"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
